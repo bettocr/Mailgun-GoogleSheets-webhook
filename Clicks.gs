@@ -1,5 +1,6 @@
 // Google Sheets webHook - Mailgun Click event
 
+
 //this is a function that fires when the webapp receives a GET request
 function doGet(e) {
   return HtmlService.createHtmlOutput("request received");
@@ -14,6 +15,9 @@ var myData = JSON.parse(e.postData.contents);
 
 
 var fecha = myData["event-data"]["timestamp"];
+//var MILLIS_PER_DAY = 1000 * 60 * 60 * 24;
+//var dateObj = new Date(fecha*1000);
+//var formattedDate = Utilities.formatDate(fecha, "GMT-06:00", "yyyy-MM-dd HH:mm:ss");
 var evento = myData["event-data"]["event"];
 var usuario = myData["event-data"]["recipient"];
 var urlB = ""
@@ -34,22 +38,27 @@ var clientOs = myData["event-data"]["client-info"]["client-os"];
 var userV = myData["event-data"]["user-variables"];
 var boletin = "";
 var idBoletin = "";
+var sid = "";
 if (myData["event-data"]["mailing-list"]["address"]){
   boletin = myData["event-data"]["mailing-list"]["address"];
   idBoletin = myData["event-data"]["mailing-list"]["list-id"];
+  sid = myData["event-data"]["mailing-list"]["sid"];
 }else{
   boletin = "n/a";
   idBoletin = "n/a";
+  sid = "n/a";
 }
 var mensajeID = myData["event-data"]["message"]["headers"]["message-id"];
 var campana = myData["event-data"]["campaigns"];
 var dominio = myData["event-data"]["recipient-domain"];
 
+if (fecha != ""){
 // hoja de calculao
   var sheet = SpreadsheetApp.getActiveSheet();
   var lastRow = Math.max(sheet.getLastRow(),1);
   sheet.insertRowAfter(lastRow);
   sheet.getRange(lastRow + 1, 1).setValue(fecha);
+  //sheet.getRange(lastRow + 1, 1).setValue(formattedDate);
   sheet.getRange(lastRow + 1, 2).setValue(evento);
   sheet.getRange(lastRow + 1, 3).setValue(urlB);
   sheet.getRange(lastRow + 1, 4).setValue(usuario);
@@ -68,7 +77,9 @@ var dominio = myData["event-data"]["recipient-domain"];
   sheet.getRange(lastRow + 1, 17).setValue(mensajeID);
   sheet.getRange(lastRow + 1, 18).setValue(campana);
   sheet.getRange(lastRow + 1, 19).setValue(dominio);
-  sheet.getRange(lastRow + 1, 20).setValue(params);
+  sheet.getRange(lastRow + 1, 20).setValue(sid);
+  sheet.getRange(lastRow + 1, 21).setValue(params);
   SpreadsheetApp.flush();
+}  
   return HtmlService.createHtmlOutput("post request received ");
 }
