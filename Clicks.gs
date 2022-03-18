@@ -53,33 +53,11 @@ var campana = myData["event-data"]["campaigns"];
 var dominio = myData["event-data"]["recipient-domain"];
 
 if (fecha != ""){
-// hoja de calculao
+// hoja de calculado
   var sheet = SpreadsheetApp.getActiveSheet();
-  var lastRow = Math.max(sheet.getLastRow(),1);
-  sheet.insertRowAfter(lastRow);
-  sheet.getRange(lastRow + 1, 1).setValue(fecha);
-  //sheet.getRange(lastRow + 1, 1).setValue(formattedDate);
-  sheet.getRange(lastRow + 1, 2).setValue(evento);
-  sheet.getRange(lastRow + 1, 3).setValue(urlB);
-  sheet.getRange(lastRow + 1, 4).setValue(usuario);
-  sheet.getRange(lastRow + 1, 5).setValue(ip);
-  sheet.getRange(lastRow + 1, 6).setValue(pais);
-  sheet.getRange(lastRow + 1, 7).setValue(region);
-  sheet.getRange(lastRow + 1, 8).setValue(ciudad);
-  sheet.getRange(lastRow + 1, 9).setValue(tags);
-  sheet.getRange(lastRow + 1, 10).setValue(clientName);
-  sheet.getRange(lastRow + 1, 11).setValue(clientType);
-  sheet.getRange(lastRow + 1, 12).setValue(deviceType);
-  sheet.getRange(lastRow + 1, 13).setValue(clientOs);
-  sheet.getRange(lastRow + 1, 14).setValue(userV);
-  sheet.getRange(lastRow + 1, 15).setValue(boletin);
-  sheet.getRange(lastRow + 1, 16).setValue(idBoletin);
-  sheet.getRange(lastRow + 1, 17).setValue(mensajeID);
-  sheet.getRange(lastRow + 1, 18).setValue(campana);
-  sheet.getRange(lastRow + 1, 19).setValue(dominio);
-  sheet.getRange(lastRow + 1, 20).setValue(sid);
-  sheet.getRange(lastRow + 1, 21).setValue(params);
+  var contenido = [fecha,evento,urlB,usuario,ip,pais,region,ciudad,tags,clientName,clientType,deviceType,clientOs,userV,boletin,idBoletin,mensajeID,campana,dominio,sid,params];
+  sheet.appendRow(contenido);
   SpreadsheetApp.flush();
-}  
+}    
   return HtmlService.createHtmlOutput("post request received ");
 }
